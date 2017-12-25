@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="http://www.douchaoyang.com/public/reset.pc.css">
+	<title>EventDispatcher</title>
+</head>
+<body>
+	<input id="username" type="text" name="username" placeholder="input here..." />
+	<p id="copyusername">see this change...</p>
+	<script type="text/javascript" src="plug.EventDispatcher.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		var usernameEvent="usernameEvent"; // 注册事件名
+		document.getElementById("username").oninput=function(){
+			Signal.event(usernameEvent); // 派发事件
+		};
+		// 监听变化
+		Signal.on(usernameEvent, document.getElementById("copyusername"),function(){
+			document.getElementById("copyusername").innerHTML=document.getElementById("username").value;
+		});
+	</script>
+</body>
+</html>
