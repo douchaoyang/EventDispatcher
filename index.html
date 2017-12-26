@@ -12,11 +12,11 @@
 	<script type="text/javascript">
 		var usernameEvent="usernameEvent"; // 注册事件名
 		document.getElementById("username").oninput=function(){
-			Signal.event(usernameEvent); // 派发事件
+			Signal.event(usernameEvent,this.value); // 派发事件
 		};
 		// 监听变化
-		Signal.on(usernameEvent, document.getElementById("copyusername"),function(){
-			document.getElementById("copyusername").innerHTML=document.getElementById("username").value;
+		Signal.on(usernameEvent, document.getElementById("copyusername"),function(data){
+			document.getElementById("copyusername").innerHTML=data;
 		});
 	</script>
 </body>
