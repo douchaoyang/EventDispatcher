@@ -14,10 +14,11 @@ window.Signal = window.Signal || (function() {
 			var instance = listeners[i];
 			var handler = instance.handler;
 			var caller = instance.caller;
-			handler.apply(caller, [data]);
+			var args = instance.args;
+			args ? handler.apply(caller, [args, data]) : handler.apply(caller, [data]);
 		}
 	};
-	EventDispatcher.prototype.on = function(type, caller, handler) {
+	EventDispatcher.prototype.on = function(type, caller, handler, args = null) {
 		var listeners = this._EVENTS_[type];
 		if (listeners === undefined) {
 			listeners = [];
@@ -25,7 +26,8 @@ window.Signal = window.Signal || (function() {
 		}
 		var instance = {
 			handler: handler,
-			caller: caller
+			caller: caller,
+			args: args
 		};
 		listeners.push(instance);
 		return instance;
