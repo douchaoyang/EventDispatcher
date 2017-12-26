@@ -4,38 +4,38 @@
 window.Signal = window.Signal || (function() {
 	function EventDispatcher() {
 		// 已监听的事件组
-		this._events = {};
+		this._EVENTS_ = {};
 	};
 	EventDispatcher.prototype.event = function(type, data = null) {
-		if (!this._events || !this._events[type]) 
+		if (!this._EVENTS_ || !this._EVENTS_[type]) 
 			return;
-		var listeners = this._events[type];
+		var listeners = this._EVENTS_[type];
 		for (var i = 0, n = listeners.length; i < n; i++) {
-			var item = listeners[i];
-			var handler = item.handler;
-			var context = item.context;
-			handler.apply(context, [data]);
+			var instance = listeners[i];
+			var handler = instance.handler;
+			var caller = instance.caller;
+			handler.apply(caller, [data]);
 		}
 	};
-	EventDispatcher.prototype.on = function(type, context, handler) {
-		var listeners = this._events[type];
+	EventDispatcher.prototype.on = function(type, caller, handler) {
+		var listeners = this._EVENTS_[type];
 		if (listeners === undefined) {
 			listeners = [];
-			this._events[type] = listeners;
+			this._EVENTS_[type] = listeners;
 		}
-		var item = {
+		var instance = {
 			handler: handler,
-			context: context
+			caller: caller
 		};
-		listeners.push(item);
-		return item;
+		listeners.push(instance);
+		return instance;
 	};
-	EventDispatcher.prototype.off = function(type, context, handler) {
-		var listeners = this._events[type];
+	EventDispatcher.prototype.off = function(type, caller, handler) {
+		var listeners = this._EVENTS_[type];
 		if (listeners !== undefined) {
 			for (var i = 0, n = listeners.length; i < n; i++) {
-				var item = listeners[i];
-				if (item.handler === handler && item.context === context) {
+				var instance = listeners[i];
+				if (instance.handler === handler && instance.caller === caller) {
 					listeners.splice(i, 1);
 					return;
 				}
@@ -43,9 +43,9 @@ window.Signal = window.Signal || (function() {
 		}
 	};
 	EventDispatcher.prototype.offAll = function(type) {
-		if (!this._events || !this._events[type]) 
+		if (!this._EVENTS_ || !this._EVENTS_[type]) 
 			return;
-		delete this._events[type];
+		delete this._EVENTS_[type];
 
 	};
 	return new EventDispatcher()

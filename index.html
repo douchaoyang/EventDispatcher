@@ -7,17 +7,16 @@
 </head>
 <body>
 	<input id="username" type="text" name="username" placeholder="input here..." />
-	<p id="copyusername">see this change...</p>
+	<p id="copyusername">copy username...</p>
+	<p id="reverseusername">reverse username...</p>
 	<script type="text/javascript" src="plug.EventDispatcher.js" charset="utf-8"></script>
 	<script type="text/javascript">
 		var usernameEvent="usernameEvent"; // 注册事件名
 		document.getElementById("username").oninput=function(){
 			Signal.event(usernameEvent,this.value); // 派发事件
 		};
-		// 监听变化
-		Signal.on(usernameEvent, document.getElementById("copyusername"),function(data){
-			document.getElementById("copyusername").innerHTML=data;
-		});
 	</script>
+	<!-- 观察者实例 -->
+	<script type="text/javascript" src="listener.js" charset="utf-8"></script>
 </body>
 </html>
